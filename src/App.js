@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import 'bootstrap/dist/css/bootstrap.min.css'
 import './App.css';
+import axios from 'axios';
+import { useState } from 'react';
+import PokemonBox from './components/PokemonBox'
 
 function App() {
+  // const [pokemon, setPokemon] = useState("bidoof")
+  const [pokemonInfo, setPokemonInfo] = useState([]);
+  // const [pokemonInfo1, setPokemonInfo1] = useState({});
+
+  const getPokemon = () => {
+    axios.get("https://pokeapi.co/api/v2/pokemon?limit=807")
+    .then(res=>setPokemonInfo(res.data.results))
+    .catch(err=>console.log(err))
+
+  }
+  
+  let count = pokemonInfo.length
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Catch all Pokemon</h1>
+        <button onClick={getPokemon} type="submit" className="btn btn-primary m-3">Submit</button>
+
+        <PokemonBox pokemonInfo={pokemonInfo} count={count} />
+
     </div>
   );
 }
